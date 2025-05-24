@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class TaskManager {
@@ -41,6 +42,7 @@ public class TaskManager {
                 Epic epic = (Epic) tasks.get(epicId);
                 epic.addSubtask(subtask.getID());
 
+
             }
             else{
                 System.out.println("Эпика с таким ID не удалось найти");
@@ -48,7 +50,10 @@ public class TaskManager {
             }
         }
         counter++;
-        tasks.put(task.getID(), task);
+        tasks.put(task.getID(), task );
+        if(task instanceof SubTask subtask){
+            updateEpicStatus(subtask.getEpicId());
+        }
 
     }
 
@@ -71,15 +76,44 @@ public class TaskManager {
     }
 
     public void deleteByID(int  id){
-        for(int element : tasks.keySet()){
-            if(element == id){
-                tasks.remove(element);
-                System.out.println("Успешно удалено!");
-                return;
-            }
-        }
-        System.out.println("Неуспешно удалено!");
+        Task task = tasks.get(id);
 
+        if (task == null) {
+            System.out.println("Неуспешно удалено! Задача с таким ID не найдена.");
+            return;
+        }
+
+        if (task instanceof Epic epic) {
+
+            ArrayList<Integer> toRemove = new ArrayList<>();
+            for (Task t : tasks.values()) {
+                if (t instanceof SubTask subtask && subtask.getEpicId() == epic.getID()) {
+                    toRemove.add(subtask.getID());
+                }
+            }
+            for (int subId : toRemove) {
+                tasks.remove(subId);
+            }
+
+            tasks.remove(id);
+            System.out.println("Удалён Epic и его " + toRemove.size() + " подзадач(и).");
+
+            return;
+        }
+
+        if (task instanceof SubTask subtask) {
+
+
+            Epic epic = (Epic)tasks.get(subtask.getEpicId());
+            epic.removeSubTask(subtask.getID());
+            tasks.remove(subtask.getID());
+            System.out.println("Успешно удалено!");
+            return;
+        }
+
+
+        tasks.remove(id);
+        System.out.println("Успешно удалено!");
 
     }
 
@@ -97,5 +131,60 @@ public class TaskManager {
             System.out.println("Не похоже на Epic");
         }
     }
+
+
+    public void updateStatus(int id, Status status) {
+        Task task = tasks.get(id);
+
+        if (task == null) {
+            System.out.println("Задача с ID " + id + " не найдена.");
+            return;
+        }
+
+        if (task instanceof Epic) {
+            System.out.println("Нельзя вручную менять статус Epic — он рассчитывается автоматически.");
+            return;
+        }
+
+        task.setStatus(status);
+
+        System.out.println("Статус задачи ID " + id + " успешно обновлён.");
+
+        if (task instanceof SubTask subtask) {
+            int epicId = subtask.getEpicId();
+            updateEpicStatus(epicId);
+        }
+
+    }
+
+    private void updateEpicStatus(int epicId){
+        Epic epic = (Epic)tasks.get(epicId);
+        int newCount = 0;
+        int doneCount = 0;
+        if(epic.subtasks == null){
+            epic.setStatus(Status.NEW);
+        }
+
+        for(int element: epic.subtasks){
+            if(tasks.get(element).getStatus() == Status.NEW){
+                newCount++;
+            } else if(tasks.get(element).getStatus() == Status.DONE){
+                doneCount++;
+            }
+        }
+
+        if(newCount == epic.subtasks.size()){
+            epic.setStatus(Status.NEW);
+            System.out.println("Статус Epic " +epicId +" был обновлен на NEW");
+        }else if(doneCount == epic.subtasks.size()){
+            epic.setStatus(Status.DONE);
+            System.out.println("Статус Epic " +epicId +" был обновлен на DONE");
+        }
+        else{
+            epic.setStatus(Status.IN_PROGRESS);
+            System.out.println("Статус Epic " +epicId +" был обновлен на IN_PROGRESS");
+        }
+    }
+
 
 }

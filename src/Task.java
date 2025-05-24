@@ -3,16 +3,23 @@ import java.util.UUID;
 
 public class Task {
 
-    private String name;
-    private String description;
-    private int ID = -1;
-    private Status status;
+    protected String name;
+    protected String description;
+    protected int ID = -1;
+    protected Status status;
 
     Task(String name, String description){
 
         this.name = name;
         this.description = description;
-        status = Status.NEW;
+
+    }
+
+    Task(String name, String description, Status status){
+
+        this.name = name;
+        this.description = description;
+        this.status = status;
     }
 
     //TODO
@@ -55,5 +62,7 @@ public class Task {
         return "Task ID="+ID+", name="+ name+ ",  description="+description+  ",  status="+ status;
     }
 
-
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 }
