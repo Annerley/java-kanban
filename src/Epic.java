@@ -1,22 +1,24 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Epic extends Task {
 
-    ArrayList<Integer> subtasks = new ArrayList<>();
+
+    HashMap<Integer, Task> subtasks = new HashMap<>();
     Epic(String name, String description){
         super(name, description);
         this.setStatus(Status.NEW);
     }
 
-    Epic(String name, String description, Status status, ArrayList<Integer> subtasks){
+    Epic(String name, String description, Status status, HashMap<Integer, Task> subtasks){
         super(name, description);
         this.setStatus(status);
         this.subtasks = subtasks;
     }
 
-    void addSubtask(int subtaskId){
+    void addSubtask(int subtaskId, Task task){
 
-        subtasks.add(subtaskId);
+        subtasks.put(subtaskId, task);
     }
 
     @Override
@@ -28,7 +30,7 @@ public class Epic extends Task {
 
     public void removeSubTask(int id){
         //чтобы удалять по значению,а не по индексу
-        subtasks.remove(Integer.valueOf(id));
+        subtasks.remove(id);
 
     }
     /*

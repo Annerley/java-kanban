@@ -32,7 +32,7 @@ public class TaskManager {
             if(isValidEpicId(epicId)){
 
                 Epic epic = (Epic) tasks.get(epicId);
-                epic.addSubtask(subtask.getID());
+                epic.addSubtask(subtask.getID(), subtask);
 
 
             } else{
@@ -115,7 +115,7 @@ public class TaskManager {
     public void getAllSubTasks(int epicId){
         Task task = tasks.get(epicId);
         if (task instanceof Epic epic){
-            System.out.println("В эпике хранятся сабтаски со следующими ID: ");
+            System.out.println("В эпике хранятся следующие сабтаски: ");
             System.out.println(epic.subtasks);
         } else{
             System.out.println("Не похоже на Epic");
@@ -154,10 +154,10 @@ public class TaskManager {
             epic.setStatus(Status.NEW);
         }
 
-        for(int element: epic.subtasks){
-            if(tasks.get(element).getStatus() == Status.NEW){
+        for(Task element: epic.subtasks.values()){
+            if(element.getStatus() == Status.NEW){
                 newCount++;
-            } else if(tasks.get(element).getStatus() == Status.DONE){
+            } else if(element.getStatus() == Status.DONE){
                 doneCount++;
             }
         }
