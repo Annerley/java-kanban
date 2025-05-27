@@ -8,7 +8,7 @@ public class Main {
         Task task1 = new Task("Сделать дз", "математика", Status.NEW);
         manager.addTask(task1);
 
-        Epic epic1 = new Epic("Помыться", "мытье");
+        Epic epic1 = new Epic("Помыться", "Почистить зубы");
         manager.addTask(epic1);
         SubTask subtask1 = new SubTask("name", "description", Status.NEW, 1);
         manager.addTask(subtask1);
@@ -16,20 +16,12 @@ public class Main {
         manager.updateTask(2, subtask2);
         manager.getAllSubTasks(1);
 
-        manager.getAllTasks();
-
+        TaskManager.printAllTasks(manager.getAllTasks());
         manager.updateStatus(2, Status.IN_PROGRESS);
-
-
-
-
-
-
-        manager.getAllTasks();
+        TaskManager.printAllTasks(manager.getAllTasks());
 
         // сверху небольшой плейграунд и тестовые данные, можно удалить с 8ой строки и просто с меню работать
         menu(manager);
-
 
     }
 
@@ -53,7 +45,7 @@ public class Main {
 
             switch (input) {
                 case "1":
-                    manager.getAllTasks();
+                    TaskManager.printAllTasks(manager.getAllTasks());
                     break;
 
                 case "2":

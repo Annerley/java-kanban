@@ -5,31 +5,23 @@ public class TaskManager {
     static int counter = 0;
     HashMap<Integer, Task> tasks = new HashMap<>();
 
-    public void getAllTasks(){
-        for(int element : tasks.keySet()){
-            System.out.println(tasks.get(element));
-        }
+    public HashMap<Integer, Task> getAllTasks(){
+        return tasks;
     }
 
     public void deleteAllTasks(){
         tasks.clear();
     }
 
-    public Task getByID(int ID){
-        for(int element : tasks.keySet()){
-            if(element == ID){
-                return tasks.get(element);
-            }
-        }
-        return null;
+    public Task getByID(int id){
+        return tasks.get(id);
     }
 
     public void addTask(Task task){
-        int nextId = counter;
+
         if(task.getID() == -1){
             task.setID(counter);
-        }
-        else{
+        } else{
             System.out.println("Вы создали копию, она была автоматически удалена");
             return;
 
@@ -43,8 +35,7 @@ public class TaskManager {
                 epic.addSubtask(subtask.getID());
 
 
-            }
-            else{
+            } else{
                 System.out.println("Эпика с таким ID не удалось найти");
                 return;
             }
@@ -56,7 +47,6 @@ public class TaskManager {
         }
 
     }
-
 
     public void updateTask(int id, Task task){
         if (tasks.get(id).getClass() != task.getClass()) {
@@ -125,13 +115,12 @@ public class TaskManager {
     public void getAllSubTasks(int epicId){
         Task task = tasks.get(epicId);
         if (task instanceof Epic epic){
+            System.out.println("В эпике хранятся сабтаски со следующими ID: ");
             System.out.println(epic.subtasks);
-        }
-        else{
+        } else{
             System.out.println("Не похоже на Epic");
         }
     }
-
 
     public void updateStatus(int id, Status status) {
         Task task = tasks.get(id);
@@ -176,15 +165,22 @@ public class TaskManager {
         if(newCount == epic.subtasks.size()){
             epic.setStatus(Status.NEW);
             System.out.println("Статус Epic " +epicId +" был обновлен на NEW");
-        }else if(doneCount == epic.subtasks.size()){
+        } else if(doneCount == epic.subtasks.size()){
             epic.setStatus(Status.DONE);
             System.out.println("Статус Epic " +epicId +" был обновлен на DONE");
-        }
-        else{
+        } else{
             epic.setStatus(Status.IN_PROGRESS);
             System.out.println("Статус Epic " +epicId +" был обновлен на IN_PROGRESS");
         }
     }
 
+    public static void printAllTasks(HashMap<Integer, Task> tasks){
+        for (int name: tasks.keySet()) {
+
+            String value = tasks.get(name).toString();
+            System.out.println(name + " " + value);
+        }
+
+    }
 
 }

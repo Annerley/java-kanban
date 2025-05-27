@@ -8,6 +8,7 @@ public class Task {
     protected int ID = -1;
     protected Status status;
 
+
     Task(String name, String description){
 
         this.name = name;
@@ -21,8 +22,6 @@ public class Task {
         this.description = description;
         this.status = status;
     }
-
-    //TODO
 
     public void setID(int id) {
         this.ID = id;
@@ -55,7 +54,6 @@ public class Task {
     public int hashCode() {
         return Objects.hash(name, description, ID, status);
     }
-
 
     @Override
     public String toString(){
