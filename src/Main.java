@@ -4,7 +4,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager manager = new TaskManager();
+        TaskManager manager =  Managers.getDefault();
         Task task1 = new Task("Сделать дз", "математика", Status.NEW);
         manager.addTask(task1);
 
@@ -16,11 +16,11 @@ public class Main {
         manager.updateTask(2, subtask2);
         manager.getAllSubTasks(1);
 
-        TaskManager.printAllTasks(manager.getAllTasks());
+        manager.printAllTasks();
         manager.updateStatus(2, Status.IN_PROGRESS);
-        TaskManager.printAllTasks(manager.getAllTasks());
+        manager.printAllTasks();
 
-        // сверху небольшой плейграунд и тестовые данные, можно удалить с 8ой строки и просто с меню работать
+
         menu(manager);
 
     }
@@ -39,13 +39,14 @@ public class Main {
             System.out.println("7 - Получить задачу по ID");
             System.out.println("8 - Обновить статус задачи");
             System.out.println("9 - Показать все подзадачи эпика");
+            System.out.println("10 - Показать историю");
             System.out.println("0 - Выйти из программы");
 
             String input = scanner.nextLine();
 
             switch (input) {
                 case "1":
-                    TaskManager.printAllTasks(manager.getAllTasks());
+                    manager.printAllTasks();
                     break;
 
                 case "2":
@@ -103,9 +104,6 @@ public class Main {
 
                     if (oldTask instanceof Epic) {
 
-                        /*не очень поняла из тз про обновление,
-                        в данном контексте обновление обновление только название + описание + статус
-                         */
 
                         updatedTask = new Epic(newName, newDesc, oldTask.getStatus(), ((Epic) oldTask).subtasks);
                     } else if (oldTask instanceof SubTask oldSub) {
@@ -149,6 +147,11 @@ public class Main {
                     System.out.println("Введите ID эпика:");
                     int epicToShow = Integer.parseInt(scanner.nextLine());
                     manager.getAllSubTasks(epicToShow);
+                    break;
+
+                case "10":
+                    manager.printHistory();
+
                     break;
 
                 case "0":
