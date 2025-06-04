@@ -11,9 +11,11 @@ public interface TaskManager {
     public void getAllSubTasks(int epicId);
     public void updateStatus(int id, Status status);
     public void deleteAllTasks();
-    public LinkedList<Task> getHistory();
+
     public void printAllTasks();
     public void printHistory();
+    public HashMap<Integer, Task> getAllTasks();
+    public LinkedList<Task> getHistory();
 
 
 }

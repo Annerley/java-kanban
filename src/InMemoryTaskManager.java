@@ -4,34 +4,30 @@ import java.util.LinkedList;
 
 public class InMemoryTaskManager implements TaskManager {
     static int counter = 0;
-
+    private final HistoryManager historyManager = Managers.getDefaultHistory();
     HashMap<Integer, Task> tasks = new HashMap<>();
-    LinkedList<Task> history = new LinkedList<>();
+
 
     public HashMap<Integer, Task> getAllTasks(){
 
         for (Task task : tasks.values()) {
-            addToHistory(task);
+            historyManager.add(task);
         }
         return tasks;
     }
-    public void addToHistory(Task task) {
-        if (task == null) return;
 
-        history.remove(task);
+    public LinkedList<Task> getHistory(){
+        return historyManager.getHistory();
+    };
 
-        if (history.size() >= 10) {
-            history.removeFirst();
-        }
-        history.add(task);
-    }
     @Override
     public void deleteAllTasks(){
         tasks.clear();
     }
     @Override
     public Task getByID(int id){
-        addToHistory(tasks.get(id));
+
+        historyManager.add(tasks.get(id));
         return tasks.get(id);
     }
     @Override
@@ -78,8 +74,9 @@ public class InMemoryTaskManager implements TaskManager {
                 task.setID(id);
                 tasks.replace(element,tasks.get(element), task);
                 System.out.println("Успешно заменено!");
-                if(history.contains(task)){
-                    addToHistory(task);
+                if(historyManager.getHistory().contains(task)){
+
+                    historyManager.add(task);
                 }
 
 
@@ -230,17 +227,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     }
 
-    @Override
-    public LinkedList<Task> getHistory() {
-        // на будущее
-        return history;
-    }
+
 
     @Override
     public void printHistory(){
         //  в данный момент в хистори добавляется, только если пользователь напрямую через case7: посмотрел
-
-
+        LinkedList<Task> history = historyManager.getHistory();
         for (Task name: history) {
 
             System.out.println(name);
