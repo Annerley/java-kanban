@@ -58,5 +58,28 @@ class TaskTest {
         assertEquals(task, tasks.get(0), "Задачи не совпадают.");
     }
 
+    @Test
+    void taskWithManualIdShouldNotBeAdded() {
+
+
+        Task manualTask = new Task("Manual", "desc", Status.NEW);
+        manualTask.setID(5);
+
+        manager.addTask(manualTask);
+
+
+        assertEquals(manager.getAllTasks().size(), 0,"Задача с вручную заданным ID не должна быть добавлена");
+
+
+        Task autoTask = new Task("Auto", "desc", Status.NEW);
+        manager.addTask(autoTask);
+
+
+        assertNotNull(manager.getByID(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
+
+
+        assertEquals(0, autoTask.getID(), "Первый авто-сгенерированный ID должен быть 0");
+    }
+
 
 }
