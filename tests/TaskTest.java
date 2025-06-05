@@ -2,7 +2,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,7 +43,7 @@ class TaskTest {
         manager.addTask(task);
         final int taskId = task.getID();
 
-        final Task savedTask = manager.getByID(taskId);
+        final Task savedTask = manager.getTask(taskId);
 
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
@@ -75,7 +74,7 @@ class TaskTest {
         manager.addTask(autoTask);
 
 
-        assertNotNull(manager.getByID(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
+        assertNotNull(manager.getTask(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
 
 
         assertEquals(0, autoTask.getID(), "Первый авто-сгенерированный ID должен быть 0");

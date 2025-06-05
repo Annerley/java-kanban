@@ -1,11 +1,10 @@
 import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 public interface TaskManager {
 
     public void addTask(Task task);
-    public Task getByID(int id);
+    public Task getTask(int id);
     public void updateTask(int id, Task task);
     public void deleteByID(int  id);
     public void getAllSubTasks(int epicId);

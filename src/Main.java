@@ -88,7 +88,7 @@ public class Main {
                     System.out.println("Введите ID задачи для обновления:");
                     int updateId = Integer.parseInt(scanner.nextLine());
 
-                    Task oldTask = manager.getByID(updateId);
+                    Task oldTask = manager.getTask(updateId);
                     if (oldTask == null) {
                         System.out.println("Задача с таким ID не найдена.");
                         break;
@@ -128,7 +128,7 @@ public class Main {
                 case "7":
                     System.out.println("Введите ID задачи:");
                     int getId = Integer.parseInt(scanner.nextLine());
-                    Task found = manager.getByID(getId);
+                    Task found = manager.getTask(getId);
                     if (found != null) {
                         System.out.println(found);
                     } else {

@@ -24,8 +24,8 @@ class HistoryManagerTest {
         manager.addTask(task2);
 
 
-        manager.getByID(task1.getID());
-        manager.getByID(task2.getID());
+        manager.getTask(task1.getID());
+        manager.getTask(task2.getID());
 
         LinkedList<Task> history = manager.getHistory();
 
