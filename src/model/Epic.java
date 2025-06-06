@@ -1,20 +1,22 @@
+package model;
+
 import java.util.HashMap;
 
 public class Epic extends Task {
 
-    HashMap<Integer, Task> subtasks = new HashMap<>();
-    Epic(String name, String description){
+    public HashMap<Integer, Task> subtasks = new HashMap<>();
+    public Epic(String name, String description){
         super(name, description);
         this.setStatus(Status.NEW);
     }
 
-    Epic(String name, String description, Status status, HashMap<Integer, Task> subtasks){
+    public Epic(String name, String description, Status status, HashMap<Integer, Task> subtasks){
         super(name, description);
         this.setStatus(status);
         this.subtasks = subtasks;
     }
 
-    void addSubtask(int subtaskId, Task task){
+    public void addSubtask(int subtaskId, Task task){
         subtasks.put(subtaskId, task);
     }
 

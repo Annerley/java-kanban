@@ -1,7 +1,11 @@
-public class SubTask extends Task{
+package model;
+
+import model.Task;
+
+public class SubTask extends Task {
 
     private int epicId;
-    SubTask(String name, String description, Status status, int EpicId){
+    public SubTask(String name, String description, Status status, int EpicId){
 
         super(name, description, status);
         this.epicId = EpicId;

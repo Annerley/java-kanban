@@ -1,5 +1,6 @@
+package model;
+
 import java.util.Objects;
-import java.util.UUID;
 
 public class Task {
 
@@ -9,14 +10,14 @@ public class Task {
     protected Status status;
 
 
-    Task(String name, String description){
+    public Task(String name, String description){
 
         this.name = name;
         this.description = description;
 
     }
 
-    Task(String name, String description, Status status){
+    public Task(String name, String description, Status status){
 
         this.name = name;
         this.description = description;

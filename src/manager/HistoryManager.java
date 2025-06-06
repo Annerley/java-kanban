@@ -1,3 +1,7 @@
+package manager;
+
+import model.Task;
+
 import java.util.LinkedList;
 
 public interface HistoryManager {

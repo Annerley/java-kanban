@@ -1,12 +1,18 @@
+package manager;
+
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class InMemoryTaskManager implements TaskManager {
-    static int counter = 0;
+    private int counter = 0;
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     HashMap<Integer, Task> tasks = new HashMap<>();
-
 
     public HashMap<Integer, Task> getAllTasks(){
         return tasks;
@@ -77,7 +83,6 @@ public class InMemoryTaskManager implements TaskManager {
                     historyManager.add(task);
                 }
 
-
                 return;
             }
         }
@@ -107,7 +112,7 @@ public class InMemoryTaskManager implements TaskManager {
                 tasks.remove(subId);
             }
             tasks.remove(id);
-            System.out.println("Удалён Epic и его " + toRemove.size() + " подзадач(и).");
+            System.out.println("Удалён model.Epic и его " + toRemove.size() + " подзадач(и).");
 
             return;
         }
@@ -138,7 +143,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println(epic.subtasks);
 
         } else{
-            System.out.println("Не похоже на Epic");
+            System.out.println("Не похоже на model.Epic");
         }
     }
 
@@ -152,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         if (task instanceof Epic) {
-            System.out.println("Нельзя вручную менять статус Epic — он рассчитывается автоматически.");
+            System.out.println("Нельзя вручную менять статус model.Epic — он рассчитывается автоматически.");
             return;
         }
 
@@ -185,13 +190,13 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (newCount == epic.subtasks.size()){
             epic.setStatus(Status.NEW);
-            System.out.println("Статус Epic " +epicId +" был обновлен на NEW");
+            System.out.println("Статус model.Epic " +epicId +" был обновлен на NEW");
         } else if (doneCount == epic.subtasks.size()){
             epic.setStatus(Status.DONE);
-            System.out.println("Статус Epic " +epicId +" был обновлен на DONE");
+            System.out.println("Статус model.Epic " +epicId +" был обновлен на DONE");
         } else{
             epic.setStatus(Status.IN_PROGRESS);
-            System.out.println("Статус Epic " +epicId +" был обновлен на IN_PROGRESS");
+            System.out.println("Статус model.Epic " +epicId +" был обновлен на IN_PROGRESS");
         }
     }
 

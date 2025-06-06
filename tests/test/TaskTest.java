@@ -1,3 +1,11 @@
+package test;
+
+import manager.Managers;
+import manager.TaskManager;
+import model.Epic;
+import model.Status;
+import model.Task;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +19,7 @@ class TaskTest {
     @BeforeEach
     void beforeEach() {
         manager = Managers.getDefault();
+
     }
 
     @Test
@@ -67,14 +76,14 @@ class TaskTest {
         manager.addTask(manualTask);
 
 
-        assertEquals(manager.getAllTasks().size(), 0,"Задача с вручную заданным ID не должна быть добавлена");
+        Assertions.assertEquals(manager.getAllTasks().size(), 0,"Задача с вручную заданным ID не должна быть добавлена");
 
 
         Task autoTask = new Task("Auto", "desc", Status.NEW);
         manager.addTask(autoTask);
 
 
-        assertNotNull(manager.getTask(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
+        Assertions.assertNotNull(manager.getTask(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
 
 
         assertEquals(0, autoTask.getID(), "Первый авто-сгенерированный ID должен быть 0");
