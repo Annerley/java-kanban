@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class CustomLinkedList {
 
-    public static class Node<T>{
+    public static class Node<T> {
         T data;
         Node<T> next;
         Node<T> prev;
@@ -21,24 +21,24 @@ public class CustomLinkedList {
     Node<Task> head;
     Node<Task> tail;
 
-    public void remove(Node<Task> node){
+    public void remove(Node<Task> node) {
 
         if (node == null) return;
 
-        if (node.prev != null){
+        if (node.prev != null) {
             node.prev.next = node.next;
         } else {
             head = node.next;
         }
 
-        if (node.next != null){
+        if (node.next != null) {
             node.next.prev = node.prev;
         } else {
             tail.prev = node.prev;
         }
     }
 
-    public Node<Task> addLast(Task task){
+    public Node<Task> addLast(Task task) {
         Node<Task> newNode = new Node<>(task, null, tail);
 
         if (tail != null) {
@@ -51,10 +51,10 @@ public class CustomLinkedList {
         return newNode;
     }
 
-    public LinkedList<Task> toList(){
+    public LinkedList<Task> toList() {
         LinkedList<Task> result = new LinkedList<>();
         Node<Task> cur = head;
-        while (cur!=null){
+        while (cur != null) {
 
             result.add(cur.data);
             cur = cur.next;

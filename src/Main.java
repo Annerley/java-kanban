@@ -146,8 +146,8 @@ public class Main {
                 case "8":
                     System.out.println("Введите ID задачи для смены статуса:");
                     int statusId = Integer.parseInt(scanner.nextLine());
-                    Status ChangeStatus = readStatusFromUser(scanner);
-                    manager.updateStatus(statusId, ChangeStatus);
+                    Status changeStatus = readStatusFromUser(scanner);
+                    manager.updateStatus(statusId, changeStatus);
                     break;
 
                 case "9":
@@ -171,6 +171,7 @@ public class Main {
             }
         }
     }
+
     public static Status readStatusFromUser(Scanner scanner) {
         while (true) {
             System.out.println("Введите статус задачи (NEW, IN_PROGRESS, DONE):");
