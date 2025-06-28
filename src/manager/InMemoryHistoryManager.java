@@ -15,9 +15,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     public void add(Task task) {
         if (task == null) return;
 
-        remove(task.getID());
+        remove(task.getId());
         CustomLinkedList.Node<Task> node = history.addLast(task);
-        map.put(task.getID(), node);
+        map.put(task.getId(), node);
 
     }
 

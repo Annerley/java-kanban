@@ -1,7 +1,5 @@
 package model;
 
-import model.Task;
-
 public class SubTask extends Task {
 
     private int epicId;
@@ -17,7 +15,7 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "SubTask ID="+this.getID()+", name="+ this.getName()+ ",  description="+this.getDescription()+
+        return "SubTask ID="+this.getId()+", name="+ this.getName()+ ",  description="+this.getDescription()+
                 ",  status="+ this.getStatus() + " epicId=" + epicId;
     }
 

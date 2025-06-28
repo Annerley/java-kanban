@@ -36,8 +36,8 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addTask(Task task){
 
-        if (task.getID() == -1){
-            task.setID(counter);
+        if (task.getId() == -1){
+            task.setId(counter);
         } else{
             System.out.println("Вы создали копию, она была автоматически удалена");
             return;
@@ -49,7 +49,7 @@ public class InMemoryTaskManager implements TaskManager {
             if(isValidEpicId(epicId)){
 
                 Epic epic = (Epic) tasks.get(epicId);
-                epic.addSubtask(subtask.getID(), subtask);
+                epic.addSubtask(subtask.getId(), subtask);
 
 
             } else{
@@ -58,7 +58,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         counter++;
-        tasks.put(task.getID(), task );
+        tasks.put(task.getId(), task );
         if (task instanceof SubTask subtask){
             updateEpicStatus(subtask.getEpicId());
         }
@@ -75,7 +75,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         for(int element : tasks.keySet()){
             if (element==id){
-                task.setID(id);
+                task.setId(id);
                 tasks.replace(element,tasks.get(element), task);
                 System.out.println("Успешно заменено!");
                 if (historyManager.getHistory().contains(task)){
@@ -104,8 +104,8 @@ public class InMemoryTaskManager implements TaskManager {
 
             ArrayList<Integer> toRemove = new ArrayList<>();
             for (Task t : tasks.values()) {
-                if (t instanceof SubTask subtask && subtask.getEpicId() == epic.getID()) {
-                    toRemove.add(subtask.getID());
+                if (t instanceof SubTask subtask && subtask.getEpicId() == epic.getId()) {
+                    toRemove.add(subtask.getId());
                 }
             }
             for (int subId : toRemove) {
@@ -122,9 +122,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (task instanceof SubTask subtask) {
 
             Epic epic = (Epic)tasks.get(subtask.getEpicId());
-            epic.removeSubTask(subtask.getID());
-            historyManager.remove(subtask.getID());
-            tasks.remove(subtask.getID());
+            epic.removeSubTask(subtask.getId());
+            historyManager.remove(subtask.getId());
+            tasks.remove(subtask.getId());
             System.out.println("Успешно удалено!");
             return;
         }

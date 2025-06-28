@@ -30,8 +30,8 @@ class HistoryManagerTest {
         manager.addTask(task2);
 
 
-        manager.getTask(task1.getID());
-        manager.getTask(task2.getID());
+        manager.getTask(task1.getId());
+        manager.getTask(task2.getId());
 
         LinkedList<Task> history = manager.getHistory();
 
@@ -53,11 +53,11 @@ class HistoryManagerTest {
         manager.addTask(task1);
         manager.addTask(task2);
 
-        manager.getTask(task1.getID());
-        manager.getTask(task2.getID());
+        manager.getTask(task1.getId());
+        manager.getTask(task2.getId());
 
-        manager.deleteByID(task1.getID());
-        manager.deleteByID(task2.getID());
+        manager.deleteByID(task1.getId());
+        manager.deleteByID(task2.getId());
 
         assertTrue(manager.getHistory().isEmpty(), "Все задачи должны быть удалены");
     }
