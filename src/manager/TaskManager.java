@@ -21,5 +21,4 @@ public interface TaskManager {
     public HashMap<Integer, Task> getAllTasks();
     public LinkedList<Task> getHistory();
 
-
 }

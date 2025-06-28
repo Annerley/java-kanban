@@ -43,4 +43,23 @@ class HistoryManagerTest {
         assertEquals(task1, history.get(0), "Первая задача в истории — task1");
         assertEquals(task2, history.get(1), "Вторая задача в истории — task2");
     }
+
+    @Test
+
+    void deletedFromHistoryAfterDeletion(){
+        Task task1 = new Task("Task1", "Description1", Status.NEW);
+        Task task2 = new Task("Task2", "Description2", Status.NEW);
+
+        manager.addTask(task1);
+        manager.addTask(task2);
+
+        manager.getTask(task1.getID());
+        manager.getTask(task2.getID());
+
+        manager.deleteByID(task1.getID());
+        manager.deleteByID(task2.getID());
+
+        assertTrue(manager.getHistory().isEmpty(), "Все задачи должны быть удалены");
+    }
+
 }

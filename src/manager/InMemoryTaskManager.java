@@ -109,8 +109,10 @@ public class InMemoryTaskManager implements TaskManager {
                 }
             }
             for (int subId : toRemove) {
+                historyManager.remove(subId);
                 tasks.remove(subId);
             }
+            historyManager.remove(id);
             tasks.remove(id);
             System.out.println("Удалён model.Epic и его " + toRemove.size() + " подзадач(и).");
 
@@ -121,11 +123,12 @@ public class InMemoryTaskManager implements TaskManager {
 
             Epic epic = (Epic)tasks.get(subtask.getEpicId());
             epic.removeSubTask(subtask.getID());
+            historyManager.remove(subtask.getID());
             tasks.remove(subtask.getID());
             System.out.println("Успешно удалено!");
             return;
         }
-
+        historyManager.remove(id);
         tasks.remove(id);
         System.out.println("Успешно удалено!");
     }

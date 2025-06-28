@@ -4,6 +4,7 @@ import manager.Managers;
 import manager.TaskManager;
 import model.Epic;
 import model.Status;
+import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -89,5 +90,18 @@ class TaskTest {
         assertEquals(0, autoTask.getID(), "Первый авто-сгенерированный ID должен быть 0");
     }
 
+    @Test
+    void subtasksDeletedIfEpicDeleted(){
+        Epic manualTask = new Epic("Manual", "desc", Status.NEW, new HashMap<>());
+        manager.addTask(manualTask);
+
+        SubTask manualSubtask = new SubTask("Manual", "desc", Status.NEW, 0);
+        manualTask.addSubtask(manualSubtask.getID(), manualSubtask);
+        manager.addTask(manualSubtask);
+
+        manager.deleteByID(0);
+
+        assertTrue(manager.getAllTasks().isEmpty(), "Все задачи должны быть удалены");
+    }
 
 }
