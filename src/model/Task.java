@@ -60,7 +60,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task ID=" + id +", name=" + name + ",  description=" + description+  ",  status=" + status;
+        return "Task ID=" + id + ", name=" + name + ",  description=" + description +  ",  status=" + status;
     }
 
     public void setStatus(Status status) {
