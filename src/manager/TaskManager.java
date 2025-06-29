@@ -4,7 +4,7 @@ import model.Status;
 import model.Task;
 
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 
 public interface TaskManager {
 
@@ -28,6 +28,6 @@ public interface TaskManager {
 
     public HashMap<Integer, Task> getAllTasks();
 
-    public LinkedList<Task> getHistory();
+    public List<Task> getHistory();
 
 }

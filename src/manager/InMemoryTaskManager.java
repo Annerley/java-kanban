@@ -7,7 +7,7 @@ import model.Task;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
@@ -18,7 +18,7 @@ public class InMemoryTaskManager implements TaskManager {
         return tasks;
     }
 
-    public LinkedList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
     }
 
@@ -214,7 +214,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void printHistory() {
         //  в данный момент в хистори добавляется, только если пользователь напрямую через case7: посмотрел
-        LinkedList<Task> history = historyManager.getHistory();
+        List<Task> history = historyManager.getHistory();
         for (Task name: history) {
 
             System.out.println(name);

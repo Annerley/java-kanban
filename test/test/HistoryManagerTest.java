@@ -8,7 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import java.util.LinkedList;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,7 +34,7 @@ class HistoryManagerTest {
         manager.getTask(task1.getId());
         manager.getTask(task2.getId());
 
-        LinkedList<Task> history = manager.getHistory();
+        List<Task> history = manager.getHistory();
 
         assertEquals(2, history.size(), "История должна содержать 2 задачи");
         assertTrue(history.contains(task1), "История должна содержать task1");
