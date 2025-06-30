@@ -12,20 +12,9 @@ public class Main {
         System.out.println("Поехали!");
 
         TaskManager manager =  Managers.getDefault();
-        Task task1 = new Task("Сделать дз", "математика", Status.NEW);
-        manager.addTask(task1);
 
-        Epic epic1 = new Epic("Помыться", "Почистить зубы");
-        manager.addTask(epic1);
-        SubTask subtask1 = new SubTask("name", "description", Status.NEW, 1);
-        manager.addTask(subtask1);
-        SubTask subtask2 = new SubTask("name2", "description2", Status.NEW,1);
-        manager.updateTask(2, subtask2);
-        manager.getAllSubTasks(1);
-
-        manager.printAllTasks();
-        manager.updateStatus(2, Status.IN_PROGRESS);
-        manager.printAllTasks();
+        //не знаю, как его правильно оформить
+        customScenario(manager);
 
 
         menu(manager);
@@ -146,8 +135,8 @@ public class Main {
                 case "8":
                     System.out.println("Введите ID задачи для смены статуса:");
                     int statusId = Integer.parseInt(scanner.nextLine());
-                    Status ChangeStatus = readStatusFromUser(scanner);
-                    manager.updateStatus(statusId, ChangeStatus);
+                    Status changeStatus = readStatusFromUser(scanner);
+                    manager.updateStatus(statusId, changeStatus);
                     break;
 
                 case "9":
@@ -171,6 +160,7 @@ public class Main {
             }
         }
     }
+
     public static Status readStatusFromUser(Scanner scanner) {
         while (true) {
             System.out.println("Введите статус задачи (NEW, IN_PROGRESS, DONE):");
@@ -181,5 +171,36 @@ public class Main {
                 System.out.println("Неверный статус. Попробуйте ещё раз.");
             }
         }
+    }
+
+    public static void customScenario(TaskManager manager) {
+        Epic emptyEpic = new Epic("name", "desc");
+
+        manager.addTask(emptyEpic);
+
+        Epic fullEpic = new Epic("name", "desc");
+        manager.addTask(fullEpic);
+
+        SubTask subtask1 = new SubTask("name", "desc", Status.NEW, 0);
+        manager.addTask(subtask1);
+        SubTask subtask2 = new SubTask("name", "desc", Status.NEW, 0);
+        manager.addTask(subtask2);
+        SubTask subtask3 = new SubTask("name", "desc", Status.NEW, 0);
+        manager.addTask(subtask3);
+
+
+
+        manager.getTask(0);
+        manager.getTask(1);
+        manager.getTask(3);
+        manager.getTask(2);
+        manager.getTask(4);
+
+        manager.getHistory();
+
+        manager.deleteByID(0);
+        manager.deleteByID(1);
+
+        manager.getHistory();
     }
 }

@@ -1,14 +1,13 @@
 package model;
 
-import model.Task;
-
 public class SubTask extends Task {
 
     private int epicId;
-    public SubTask(String name, String description, Status status, int EpicId){
+
+    public SubTask(String name, String description, Status status, int epicId) {
 
         super(name, description, status);
-        this.epicId = EpicId;
+        this.epicId = epicId;
     }
 
     public int getEpicId() {
@@ -17,8 +16,8 @@ public class SubTask extends Task {
 
     @Override
     public String toString() {
-        return "SubTask ID="+this.getID()+", name="+ this.getName()+ ",  description="+this.getDescription()+
-                ",  status="+ this.getStatus() + " epicId=" + epicId;
+        return "SubTask ID=" + this.getId() + ", name=" + this.getName() + ",  description=" + this.getDescription() +
+                ",  status=" + this.getStatus() + " epicId=" + epicId;
     }
 
 

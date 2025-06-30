@@ -8,7 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import java.util.LinkedList;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,10 +31,10 @@ class HistoryManagerTest {
         manager.addTask(task2);
 
 
-        manager.getTask(task1.getID());
-        manager.getTask(task2.getID());
+        manager.getTask(task1.getId());
+        manager.getTask(task2.getId());
 
-        LinkedList<Task> history = manager.getHistory();
+        List<Task> history = manager.getHistory();
 
         assertEquals(2, history.size(), "История должна содержать 2 задачи");
         assertTrue(history.contains(task1), "История должна содержать task1");
@@ -43,4 +44,23 @@ class HistoryManagerTest {
         assertEquals(task1, history.get(0), "Первая задача в истории — task1");
         assertEquals(task2, history.get(1), "Вторая задача в истории — task2");
     }
+
+    @Test
+
+    void deletedFromHistoryAfterDeletion(){
+        Task task1 = new Task("Task1", "Description1", Status.NEW);
+        Task task2 = new Task("Task2", "Description2", Status.NEW);
+
+        manager.addTask(task1);
+        manager.addTask(task2);
+
+        manager.getTask(task1.getId());
+        manager.getTask(task2.getId());
+
+        manager.deleteByID(task1.getId());
+        manager.deleteByID(task2.getId());
+
+        assertTrue(manager.getHistory().isEmpty(), "Все задачи должны быть удалены");
+    }
+
 }

@@ -4,6 +4,7 @@ import manager.Managers;
 import manager.TaskManager;
 import model.Epic;
 import model.Status;
+import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,9 @@ class TaskTest {
     void twoTasksAreEqualWithSameIds() {
 
         Task task1 = new Task("qwe","qew", Status.NEW);
-        task1.setID(1);
+        task1.setId(1);
         Task task2 = new Task("qwe","qew", Status.NEW);
-        task2.setID(1);
+        task2.setId(1);
 
         assertEquals(task1, task2);
 
@@ -37,9 +38,9 @@ class TaskTest {
     @Test
     void twoInheritedTasksAreEqualWithSameIds(){
         Task task1 = new Epic("qwe","qew", Status.NEW, null);
-        task1.setID(1);
+        task1.setId(1);
         Task task2 = new Epic("qwe","qew", Status.NEW, null);
-        task2.setID(1);
+        task2.setId(1);
 
         assertEquals(task1, task2);
     }
@@ -50,7 +51,7 @@ class TaskTest {
     void addNewTask() {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         manager.addTask(task);
-        final int taskId = task.getID();
+        final int taskId = task.getId();
 
         final Task savedTask = manager.getTask(taskId);
 
@@ -71,7 +72,7 @@ class TaskTest {
 
 
         Task manualTask = new Task("Manual", "desc", Status.NEW);
-        manualTask.setID(5);
+        manualTask.setId(5);
 
         manager.addTask(manualTask);
 
@@ -83,11 +84,24 @@ class TaskTest {
         manager.addTask(autoTask);
 
 
-        Assertions.assertNotNull(manager.getTask(autoTask.getID()), "Автоматически добавленная задача должна быть в менеджере");
+        Assertions.assertNotNull(manager.getTask(autoTask.getId()), "Автоматически добавленная задача должна быть в менеджере");
 
 
-        assertEquals(0, autoTask.getID(), "Первый авто-сгенерированный ID должен быть 0");
+        assertEquals(0, autoTask.getId(), "Первый авто-сгенерированный ID должен быть 0");
     }
 
+    @Test
+    void subtasksDeletedIfEpicDeleted(){
+        Epic manualTask = new Epic("Manual", "desc", Status.NEW, new HashMap<>());
+        manager.addTask(manualTask);
+
+        SubTask manualSubtask = new SubTask("Manual", "desc", Status.NEW, 0);
+        manualTask.addSubtask(manualSubtask.getId(), manualSubtask);
+        manager.addTask(manualSubtask);
+
+        manager.deleteByID(0);
+
+        assertTrue(manager.getAllTasks().isEmpty(), "Все задачи должны быть удалены");
+    }
 
 }
