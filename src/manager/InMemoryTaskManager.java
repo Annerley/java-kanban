@@ -38,10 +38,6 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (task.getId() == -1) {
             task.setId(counter);
-        } else {
-            System.out.println("Вы создали копию, она была автоматически удалена");
-            return;
-
         }
 
         if (task instanceof SubTask subtask) {

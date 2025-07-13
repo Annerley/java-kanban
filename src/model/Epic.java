@@ -21,11 +21,11 @@ public class Epic extends Task {
         subtasks.put(subtaskId, task);
     }
 
+    // 2,EPIC,Epic2,DONE,Description epic2,
     @Override
     public String toString() {
-        return "Epic ID=" + this.getId() + ", name=" + this.getName() + ",  description=" + this.getDescription() +
-                ",  status=" + this.getStatus() +
-                " subtasks=" + subtasks.toString();
+        return + this.getId() + ",EPIC," + this.getName() + "," + this.getStatus() +
+                "," + this.getDescription() + ",";
     }
 
     public void removeSubTask(int id) {

@@ -60,7 +60,8 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task ID=" + id + ", name=" + name + ",  description=" + description +  ",  status=" + status;
+        return this.getId() + ",TASK," + this.getName() + "," + this.getStatus() +
+                "," + this.getDescription() + ",";
     }
 
     public void setStatus(Status status) {

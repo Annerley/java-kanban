@@ -14,10 +14,11 @@ public class SubTask extends Task {
         return epicId;
     }
 
+    // 3,SUBTASK,Sub Task2,DONE,Description sub task3,2
     @Override
     public String toString() {
-        return "SubTask ID=" + this.getId() + ", name=" + this.getName() + ",  description=" + this.getDescription() +
-                ",  status=" + this.getStatus() + " epicId=" + epicId;
+        return this.getId() + ",SUBTASK," + this.getName() + "," + this.getStatus() +
+                "," + this.getDescription() + "," + epicId + ",";
     }
 
 

@@ -11,13 +11,14 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Поехали!");
 
-        TaskManager manager =  Managers.getDefault();
+        try {
+            TaskManager manager =  Managers.getFileBackedManager();
+            //customScenario(manager);
 
-        //не знаю, как его правильно оформить
-        customScenario(manager);
-
-
-        menu(manager);
+            menu(manager);
+        } catch (java.io.IOException e) {
+            System.out.println("Вероятно такого файла не существует :" + e.getMessage());
+        }
 
     }
 
@@ -203,4 +204,6 @@ public class Main {
 
         manager.getHistory();
     }
+
+
 }
