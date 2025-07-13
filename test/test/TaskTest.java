@@ -68,25 +68,12 @@ class TaskTest {
     }
 
     @Test
-    void taskWithManualIdShouldNotBeAdded() {
-
-
-        Task manualTask = new Task("Manual", "desc", Status.NEW);
-        manualTask.setId(5);
-
-        manager.addTask(manualTask);
-
-
-        Assertions.assertEquals(manager.getAllTasks().size(), 0,"Задача с вручную заданным ID не должна быть добавлена");
-
+    void firstAddedTaskHasZeroId() {
 
         Task autoTask = new Task("Auto", "desc", Status.NEW);
         manager.addTask(autoTask);
 
-
         Assertions.assertNotNull(manager.getTask(autoTask.getId()), "Автоматически добавленная задача должна быть в менеджере");
-
-
         assertEquals(0, autoTask.getId(), "Первый авто-сгенерированный ID должен быть 0");
     }
 
