@@ -45,4 +45,16 @@ public class FileBackedTaskManagerTest {
         assertEquals("Epic1", tasks.get(epic.getId()).getName());
         assertEquals("Subtask1", tasks.get(subtask.getId()).getName());
     }
+
+    @Test
+    void saveAndLoadEmptyManager() throws IOException {
+
+        File tempFile = File.createTempFile("test", ".csv");
+        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
+        assertTrue(loadedManager.getAllTasks().isEmpty(), "После создания нового файла список задач должен быть пуст");
+
+        loadedManager.deleteAllTasks();//forced save
+        FileBackedTaskManager manager = FileBackedTaskManager.loadFromFile(tempFile);
+        assertTrue(manager.getAllTasks().isEmpty(), "После загрузки из пустого файла список задач должен быть пуст");
+    }
 }
