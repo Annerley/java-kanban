@@ -6,17 +6,20 @@ import model.SubTask;
 import model.Task;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     File file;
+    static boolean isLoading = false;
 
     public FileBackedTaskManager(File file) {
         this.file = file;
     }
 
     public static FileBackedTaskManager loadFromFile(File file) throws IOException {
-
+        isLoading = true;
         try {
             if (file.createNewFile()) {
                 System.out.println("Файл не найден. Создан новый файл: " + file.getName());
@@ -34,14 +37,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 manager.addTask(task);
             }
         }
-
+        isLoading = false;
         return manager;
     }
 
     @Override
     public void addTask(Task task) {
         super.addTask(task);
-        save();
+        if (!isLoading) {
+            save();
+        }
+
     }
 
     @Override
@@ -87,12 +93,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         String[] parts = value.split(",");
         if (parts[1].equals(TaskType.TASK.toString())) {
-            Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]));
+            Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]), LocalDateTime.parse(parts[5]), Duration.ofMinutes(Integer.parseInt(parts[6])));
             // TO DO try / catch
             task.setId(Integer.parseInt(parts[0]));
             return task;
         } else if (parts[1].equals(TaskType.SUBTASK.toString())) {
-            SubTask subtask = new SubTask(parts[2], parts[4], Status.valueOf(parts[3]), Integer.parseInt(parts[5]));
+            SubTask subtask = new SubTask(parts[2], parts[4], Status.valueOf(parts[3]),LocalDateTime.parse(parts[6]), Duration.ofMinutes(Integer.parseInt(parts[7])), Integer.parseInt(parts[5]));
             // TO DO try / catch
             subtask.setId(Integer.parseInt(parts[0]));
             return subtask;

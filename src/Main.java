@@ -5,6 +5,8 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Scanner;
 
 public class Main {
@@ -37,6 +39,7 @@ public class Main {
             System.out.println("8 - Обновить статус задачи");
             System.out.println("9 - Показать все подзадачи эпика");
             System.out.println("10 - Показать историю");
+            System.out.println("11 - Посмотреть задачи по времени");
             System.out.println("0 - Выйти из программы");
 
             String input = scanner.nextLine();
@@ -53,8 +56,10 @@ public class Main {
                     String desc = scanner.nextLine();
 
                     Status status = readStatusFromUser(scanner);
-
-                    Task task = new Task(name, desc, status);
+                    LocalDateTime startTime = readStartTimeFromUser(scanner);
+                    System.out.println("Введите длительность в минутах:");
+                    Duration duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
+                    Task task = new Task(name, desc, status, startTime, duration);
                     manager.addTask(task);
                     break;
 
@@ -76,8 +81,10 @@ public class Main {
                     int epicId = Integer.parseInt(scanner.nextLine());
 
                     status = readStatusFromUser(scanner);
-
-                    SubTask subtask = new SubTask(sname, sdesc, status, epicId);
+                    startTime = readStartTimeFromUser(scanner);
+                    System.out.println("Введите длительность в минутах:");
+                    duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
+                    SubTask subtask = new SubTask(sname, sdesc, status, startTime, duration, epicId);
                     manager.addTask(subtask);
                     break;
 
@@ -151,6 +158,12 @@ public class Main {
 
                     break;
 
+                case "11":
+                    //System.out.println(manager.getPrioritizedTasks());
+                    for (Task prioritizedTask : manager.getPrioritizedTasks()) {
+                        System.out.println(prioritizedTask.toString());
+                    }
+                    break;
                 case "0":
                     System.out.println("Программа завершена.");
                     scanner.close();
@@ -170,6 +183,41 @@ public class Main {
                 return Status.valueOf(input);
             } catch (IllegalArgumentException e) {
                 System.out.println("Неверный статус. Попробуйте ещё раз.");
+            }
+        }
+    }
+
+    public static LocalDateTime readStartTimeFromUser(Scanner scanner) {
+        while (true) {
+            try {
+                System.out.println("Введите дату начала в формате yyyy MM dd");
+                String dateInput = scanner.nextLine();
+                String[] dateParts = dateInput.trim().split("\\s+");
+
+                if (dateParts.length != 3) {
+                    throw new IllegalArgumentException("Нужно ввести три числа: год месяц день");
+                }
+
+                int year = Integer.parseInt(dateParts[0]);
+                int month = Integer.parseInt(dateParts[1]);
+                int day = Integer.parseInt(dateParts[2]);
+
+                System.out.println("Введите время через пробел (формат: HH mm):");
+                String timeInput = scanner.nextLine();
+                String[] timeParts = timeInput.trim().split("\\s+");
+
+                if (timeParts.length != 2) {
+                    throw new IllegalArgumentException("Нужно ввести два числа: часы минуты");
+                }
+
+                int hour = Integer.parseInt(timeParts[0]);
+                int minute = Integer.parseInt(timeParts[1]);
+
+                LocalDateTime startTime = LocalDateTime.of(year, month, day, hour, minute);
+                System.out.println("Вы ввели дату и время: " + startTime);
+                return startTime;
+            } catch (Exception e) {
+                System.out.println("Ошибка ввода! Проверьте формат: yyyy MM dd и HH mm");
             }
         }
     }
