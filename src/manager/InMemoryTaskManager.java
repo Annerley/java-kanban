@@ -41,6 +41,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addTask(Task task) {
 
+        if (!(task instanceof Epic)) {
+            checkIntersection(task);
+        }
+
         if (task.getId() == -1) {
             task.setId(counter);
         }
@@ -55,7 +59,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
             } else {
-                System.out.println("Эпика с таким ID не удалось найти");
+                System.out.println("Эпика с таким  ID не удалось найти");
                 return;
             }
         }
@@ -153,8 +157,9 @@ public class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(epicId);
         if (task instanceof Epic epic) {
             System.out.println("В эпике хранятся следующие сабтаски: ");
-            System.out.println(epic.subtasks);
-
+            epic.subtasks.values().stream()
+                    .map(Object::toString)
+                    .forEach(System.out::println);
         } else {
             System.out.println("Не похоже на model.Epic");
         }
@@ -230,5 +235,24 @@ public class InMemoryTaskManager implements TaskManager {
 
             System.out.println(name);
         }
+    }
+
+    public boolean checkIntersection(Task task) {
+        boolean hasIntersection = prioritizedTasks.stream()
+                .anyMatch(oldTask ->
+                        task.getStartTime() != null &&
+                        task.getEndTime() != null &&
+                        oldTask.getStartTime() != null &&
+                        oldTask.getEndTime() != null &&
+                        // условие пересечения
+                        task.getStartTime().isBefore(oldTask.getEndTime()) &&
+                        task.getEndTime().isAfter(oldTask.getStartTime())
+                );
+
+        if (hasIntersection) {
+            throw new IllegalArgumentException("Задача пересекается по времени с другой задачей");
+        }
+
+        return hasIntersection;
     }
 }

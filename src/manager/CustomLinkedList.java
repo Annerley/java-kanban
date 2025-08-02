@@ -34,7 +34,7 @@ public class CustomLinkedList {
         if (node.next != null) {
             node.next.prev = node.prev;
         } else {
-            tail.prev = node.prev;
+            tail = node.prev;
         }
     }
 
@@ -63,5 +63,3 @@ public class CustomLinkedList {
     }
 
 }
-
-

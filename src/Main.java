@@ -58,9 +58,16 @@ public class Main {
                     Status status = readStatusFromUser(scanner);
                     LocalDateTime startTime = readStartTimeFromUser(scanner);
                     System.out.println("Введите длительность в минутах:");
-                    Duration duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
-                    Task task = new Task(name, desc, status, startTime, duration);
-                    manager.addTask(task);
+
+                    try {
+                        Duration duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
+                        Task task = new Task(name, desc, status, startTime, duration);
+                        manager.addTask(task);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+
                     break;
 
                 case "3":
@@ -83,9 +90,14 @@ public class Main {
                     status = readStatusFromUser(scanner);
                     startTime = readStartTimeFromUser(scanner);
                     System.out.println("Введите длительность в минутах:");
-                    duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
-                    SubTask subtask = new SubTask(sname, sdesc, status, startTime, duration, epicId);
-                    manager.addTask(subtask);
+
+                    try {
+                        Duration duration = Duration.ofMinutes(Integer.parseInt(scanner.nextLine()));
+                        SubTask subtask = new SubTask(sname, sdesc, status, startTime, duration, epicId);
+                        manager.addTask(subtask);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
                     break;
 
                 case "5":
@@ -159,7 +171,6 @@ public class Main {
                     break;
 
                 case "11":
-                    //System.out.println(manager.getPrioritizedTasks());
                     for (Task prioritizedTask : manager.getPrioritizedTasks()) {
                         System.out.println(prioritizedTask.toString());
                     }
