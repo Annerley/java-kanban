@@ -24,7 +24,6 @@ public class Epic extends Task {
         getEndTime();
     }
 
-    // 2,EPIC,Epic2,DONE,Description epic2,
     @Override
     public String toString() {
         return this.getId() + ",EPIC," + this.getName() + "," + this.getStatus() +
