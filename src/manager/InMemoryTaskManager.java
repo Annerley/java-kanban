@@ -5,14 +5,13 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     HashMap<Integer, Task> tasks = new HashMap<>();
+    TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(Task::getStartTime));
 
     public HashMap<Integer, Task> getAllTasks() {
         return tasks;
@@ -20,6 +19,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     public List<Task> getHistory() {
         return historyManager.getHistory();
+    }
+
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return prioritizedTasks;
     }
 
     @Override
@@ -36,11 +40,16 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void addTask(Task task) {
 
+        if (!(task instanceof Epic)) {
+            checkIntersection(task);
+        }
+
         if (task.getId() == -1) {
             task.setId(counter);
         }
 
         if (task instanceof SubTask subtask) {
+
             int epicId = subtask.getEpicId();
             if (isValidEpicId(epicId)) {
 
@@ -49,7 +58,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
             } else {
-                System.out.println("Эпика с таким ID не удалось найти");
+                System.out.println("Эпика с таким  ID не удалось найти");
                 return;
             }
         }
@@ -57,6 +66,9 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.put(task.getId(), task);
         if (task instanceof SubTask subtask) {
             updateEpicStatus(subtask.getEpicId());
+        }
+        if (!(task instanceof Epic)) {
+            prioritizedTasks.add(task);
         }
 
     }
@@ -71,18 +83,23 @@ public class InMemoryTaskManager implements TaskManager {
         }
         for (int element : tasks.keySet()) {
             if (element == id) {
+                Task oldTask = tasks.get(element);
                 task.setId(id);
-                tasks.replace(element,tasks.get(element), task);
+                tasks.replace(element,oldTask, task);
                 System.out.println("Успешно заменено!");
+                //add to history
                 if (historyManager.getHistory().contains(task)) {
                     historyManager.add(task);
                 }
-
+                //update in prioritizedSet
+                if (!(task instanceof Epic)) {
+                    prioritizedTasks.remove(oldTask);
+                    prioritizedTasks.add(task);
+                }
                 return;
             }
         }
         System.out.println("Неуспешно заменено!");
-
 
     }
 
@@ -123,6 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Успешно удалено!");
             return;
         }
+        prioritizedTasks.remove(task);
         historyManager.remove(id);
         tasks.remove(id);
         System.out.println("Успешно удалено!");
@@ -138,8 +156,9 @@ public class InMemoryTaskManager implements TaskManager {
         Task task = tasks.get(epicId);
         if (task instanceof Epic epic) {
             System.out.println("В эпике хранятся следующие сабтаски: ");
-            System.out.println(epic.subtasks);
-
+            epic.subtasks.values().stream()
+                    .map(Object::toString)
+                    .forEach(System.out::println);
         } else {
             System.out.println("Не похоже на model.Epic");
         }
@@ -215,5 +234,24 @@ public class InMemoryTaskManager implements TaskManager {
 
             System.out.println(name);
         }
+    }
+
+    public boolean checkIntersection(Task task) {
+        boolean hasIntersection = prioritizedTasks.stream()
+                .anyMatch(oldTask ->
+                        task.getStartTime() != null &&
+                        task.getEndTime() != null &&
+                        oldTask.getStartTime() != null &&
+                        oldTask.getEndTime() != null &&
+                        // условие пересечения
+                        task.getStartTime().isBefore(oldTask.getEndTime()) &&
+                        task.getEndTime().isAfter(oldTask.getStartTime())
+                );
+
+        if (hasIntersection) {
+            throw new IllegalArgumentException("Задача пересекается по времени с другой задачей");
+        }
+
+        return hasIntersection;
     }
 }

@@ -10,17 +10,21 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
     TaskManager manager;
-
+    LocalDateTime defaultTime;
+    LocalDateTime defaultTime2;
     @BeforeEach
     void beforeEach() {
         manager = Managers.getDefault();
-
+        defaultTime = LocalDateTime.now();
+        defaultTime2 = LocalDateTime.now().plusDays(1);
     }
 
     @Test
@@ -49,7 +53,7 @@ class TaskTest {
 
     @Test
     void addNewTask() {
-        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
+        Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW, defaultTime, Duration.ofMinutes(10));
         manager.addTask(task);
         final int taskId = task.getId();
 
@@ -70,7 +74,7 @@ class TaskTest {
     @Test
     void firstAddedTaskHasZeroId() {
 
-        Task autoTask = new Task("Auto", "desc", Status.NEW);
+        Task autoTask = new Task("Auto", "desc", Status.NEW, defaultTime, Duration.ofMinutes(10));
         manager.addTask(autoTask);
 
         Assertions.assertNotNull(manager.getTask(autoTask.getId()), "Автоматически добавленная задача должна быть в менеджере");
@@ -82,7 +86,7 @@ class TaskTest {
         Epic manualTask = new Epic("Manual", "desc", Status.NEW, new HashMap<>());
         manager.addTask(manualTask);
 
-        SubTask manualSubtask = new SubTask("Manual", "desc", Status.NEW, 0);
+        SubTask manualSubtask = new SubTask("Manual", "desc", Status.NEW, defaultTime, Duration.ofMinutes(10),0);
         manualTask.addSubtask(manualSubtask.getId(), manualSubtask);
         manager.addTask(manualSubtask);
 

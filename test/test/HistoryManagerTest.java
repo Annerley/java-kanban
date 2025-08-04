@@ -8,24 +8,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HistoryManagerTest {
-
-    TaskManager manager;
-
-    @BeforeEach
-    void beforeEach() {
-        manager = Managers.getDefault();
-    }
+class HistoryManagerTest extends TaskManagerTest {
 
     @Test
     void tasksShouldAppearInHistoryAfterGetById() {
-        Task task1 = new Task("Task1", "Description1", Status.NEW);
-        Task task2 = new Task("Task2", "Description2", Status.NEW);
+        Task task1 = new Task("Task1", "Description1", Status.NEW, defaultTime, Duration.ofMinutes(10));
+        Task task2 = new Task("Task2", "Description2", Status.NEW, defaultTime2, Duration.ofMinutes(10));
 
         manager.addTask(task1);
         manager.addTask(task2);
@@ -46,10 +40,9 @@ class HistoryManagerTest {
     }
 
     @Test
-
     void deletedFromHistoryAfterDeletion(){
-        Task task1 = new Task("Task1", "Description1", Status.NEW);
-        Task task2 = new Task("Task2", "Description2", Status.NEW);
+        Task task1 = new Task("Task1", "Description1", Status.NEW, defaultTime, Duration.ofMinutes(10));
+        Task task2 = new Task("Task2", "Description2", Status.NEW, defaultTime2, Duration.ofMinutes(10));
 
         manager.addTask(task1);
         manager.addTask(task2);
@@ -62,5 +55,31 @@ class HistoryManagerTest {
 
         assertTrue(manager.getHistory().isEmpty(), "Все задачи должны быть удалены");
     }
+
+    @Test
+    void emptyHistory() {
+        Task task1 = new Task("Task1", "Description1", Status.NEW, defaultTime, Duration.ofMinutes(10));
+        Task task2 = new Task("Task2", "Description2", Status.NEW, defaultTime2, Duration.ofMinutes(10));
+        manager.addTask(task1);
+        manager.addTask(task2);
+        assertTrue(manager.getHistory().isEmpty(), "История должна быть пустой");
+    }
+
+    @Test
+    void duplicateTaskInHistory() {
+
+        Task task1 = new Task("Task1", "Description1", Status.NEW, defaultTime, Duration.ofMinutes(10));
+
+        manager.addTask(task1);
+
+        manager.getTask(task1.getId());
+        manager.getTask(task1.getId());
+
+        List<Task> history = manager.getHistory();
+
+        assertEquals(1, history.size(), "История должна содержать 1 задачу");
+
+    }
+
 
 }
