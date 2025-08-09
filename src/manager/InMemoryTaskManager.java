@@ -44,7 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
             checkIntersection(task);
         }
 
-        if (task.getId() == -1) {
+        if (task.getId() == null || task.getId() == -1) {
             task.setId(counter);
         }
 
@@ -71,6 +71,14 @@ public class InMemoryTaskManager implements TaskManager {
             prioritizedTasks.add(task);
         }
 
+    }
+
+    @Override
+    public List<SubTask> getSubTasks() {
+        return tasks.values().stream()
+                .filter(task -> task instanceof SubTask)
+                .map(task -> (SubTask) task)
+                .toList();
     }
 
     @Override

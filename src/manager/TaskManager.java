@@ -1,6 +1,7 @@
 package manager;
 
 import model.Status;
+import model.SubTask;
 import model.Task;
 
 import java.util.HashMap;
@@ -10,6 +11,8 @@ import java.util.TreeSet;
 public interface TaskManager {
 
     public void addTask(Task task);
+
+    public List<SubTask> getSubTasks();
 
     public Task getTask(int id);
 
