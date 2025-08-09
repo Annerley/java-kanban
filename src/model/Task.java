@@ -8,7 +8,7 @@ public class Task {
 
     protected String name;
     protected String description;
-    protected int id = -1;
+    protected Integer id = -1;
     protected Status status;
     protected Duration duration;
     protected LocalDateTime startTime;
@@ -42,7 +42,7 @@ public class Task {
         this.id = id;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
