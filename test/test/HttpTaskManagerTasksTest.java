@@ -62,7 +62,7 @@ public class HttpTaskManagerTasksTest {
         // вызываем рест, отвечающий за создание задач
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         // проверяем код ответа
-        assertEquals(200, response.statusCode());
+        assertEquals(201, response.statusCode());
 
         // проверяем, что создалась одна задача с корректным именем
         HashMap<Integer, Task> tasksFromManager = manager.getAllTasks();
@@ -87,7 +87,7 @@ public class HttpTaskManagerTasksTest {
         // вызываем рест, отвечающий за создание задач
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-        assertEquals(200, response.statusCode());
+        assertEquals(201, response.statusCode());
 
         // проверяем, что создалась одна задача с корректным именем
         HashMap<Integer, Task> tasksFromManager = manager.getAllTasks();

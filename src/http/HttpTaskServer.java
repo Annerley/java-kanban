@@ -128,7 +128,7 @@ public class HttpTaskServer {
                 if (t == null) {
                     sendNotFound(ex, 404, "Такой задачи нет");
                 } else {
-                    String json = gson.toJson(t.toString());
+                    String json = gson.toJson(t);
                     sendResponse(ex, 200, json);
                 }
 
@@ -146,8 +146,11 @@ public class HttpTaskServer {
                     task.setId(-1);
                     manager.addTask(task);
                     System.out.println(task);
-                    sendText(ex, "Задача " + task.getId() + " успешно добавлена");
-                } catch (Exception e) {
+                    sendResponse(ex, 201, "Задача " + task.getId() + " успешно добавлена");
+                } catch (IllegalArgumentException e) {
+                    sendHasOverlaps(ex, e.getMessage());
+                }
+                catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }
@@ -224,7 +227,7 @@ public class HttpTaskServer {
                 if (t == null) {
                     sendNotFound(ex, 404, "Такой подзадачи нет");
                 } else {
-                    String json = gson.toJson(t.toString());
+                    String json = gson.toJson(t);
                     sendResponse(ex, 200, json);
                 }
 
@@ -242,12 +245,15 @@ public class HttpTaskServer {
                     task.setId(-1);
                     if (manager.getTask(task.getEpicId()) != null) {
                         manager.addTask(task);
-                        sendText(ex, "Подзадача " + task.getId() + " успешно добавлена");
+                        sendResponse(ex, 201,"Подзадача " + task.getId() + " успешно добавлена");
                     } else {
                         sendNotFound(ex, 404,"Эпика с id " + task.getEpicId() + " не найдено");
                     }
 
-                } catch (Exception e) {
+                } catch (IllegalArgumentException e) {
+                    sendHasOverlaps(ex, e.getMessage());
+                }
+                catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }
@@ -342,7 +348,7 @@ public class HttpTaskServer {
                 sendResponse(ex, 200, json);
             } else if (!subtasks) {
                 if (manager.getTask(id) instanceof Epic t) {
-                    String json = gson.toJson(t.toString());
+                    String json = gson.toJson(t);
                     sendResponse(ex, 200, json);
                 } else {
                     sendNotFound(ex, 404, "Эпика с таким id нет");
@@ -369,8 +375,9 @@ public class HttpTaskServer {
                     Epic task = gson.fromJson(body, Epic.class);
                     task.setId(-1);
                     manager.addTask(task);
-                    sendText(ex, "Эпик " + task.getId() + " успешно добавлен");
-                } catch (Exception e) {
+                    sendResponse(ex, 201, "Эпик " + task.getId() + " успешно добавлен");
+                }
+                catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }

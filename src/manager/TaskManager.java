@@ -10,30 +10,30 @@ import java.util.TreeSet;
 
 public interface TaskManager {
 
-    public void addTask(Task task);
+    void addTask(Task task);
 
-    public List<SubTask> getSubTasks();
+    List<SubTask> getSubTasks();
 
-    public Task getTask(int id);
+    Task getTask(int id);
 
-    public void updateTask(int id, Task task);
+    void updateTask(int id, Task task);
 
-    public void deleteByID(int  id);
+    void deleteByID(int  id);
 
-    public void getAllSubTasks(int epicId);
+    void getAllSubTasks(int epicId);
 
-    public void updateStatus(int id, Status status);
+    void updateStatus(int id, Status status);
 
-    public void deleteAllTasks();
+    void deleteAllTasks();
 
-    public void printAllTasks();
+    void printAllTasks();
 
-    public void printHistory();
+    void printHistory();
 
-    public HashMap<Integer, Task> getAllTasks();
+    HashMap<Integer, Task> getAllTasks();
 
-    public List<Task> getHistory();
+    List<Task> getHistory();
 
-    public TreeSet<Task> getPrioritizedTasks();
+    TreeSet<Task> getPrioritizedTasks();
 
 }

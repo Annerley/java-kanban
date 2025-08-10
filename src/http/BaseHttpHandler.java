@@ -29,7 +29,7 @@ public class BaseHttpHandler {
         sendResponse(ex, status, text);
     }
 
-    public void sendHasOverlaps(HttpExchange ex, int code,  String text) throws IOException {
-        sendResponse(ex, 409, text);
+    public void sendHasOverlaps(HttpExchange ex,  String text) throws IOException {
+        sendResponse(ex, 406, text);
     }
 }
