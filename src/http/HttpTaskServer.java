@@ -149,8 +149,7 @@ public class HttpTaskServer {
                     sendResponse(ex, 201, "Задача " + task.getId() + " успешно добавлена");
                 } catch (IllegalArgumentException e) {
                     sendHasOverlaps(ex, e.getMessage());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }
@@ -252,8 +251,7 @@ public class HttpTaskServer {
 
                 } catch (IllegalArgumentException e) {
                     sendHasOverlaps(ex, e.getMessage());
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }
@@ -376,8 +374,7 @@ public class HttpTaskServer {
                     task.setId(-1);
                     manager.addTask(task);
                     sendResponse(ex, 201, "Эпик " + task.getId() + " успешно добавлен");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     sendResponse(ex, 400, e.getMessage());
                     return;
                 }
