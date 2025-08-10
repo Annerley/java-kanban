@@ -1,6 +1,7 @@
 package manager;
 
 import model.Status;
+import model.SubTask;
 import model.Task;
 
 import java.util.HashMap;
@@ -9,28 +10,30 @@ import java.util.TreeSet;
 
 public interface TaskManager {
 
-    public void addTask(Task task);
+    void addTask(Task task);
 
-    public Task getTask(int id);
+    List<SubTask> getSubTasks();
 
-    public void updateTask(int id, Task task);
+    Task getTask(int id);
 
-    public void deleteByID(int  id);
+    void updateTask(int id, Task task);
 
-    public void getAllSubTasks(int epicId);
+    void deleteByID(int  id);
 
-    public void updateStatus(int id, Status status);
+    void getAllSubTasks(int epicId);
 
-    public void deleteAllTasks();
+    void updateStatus(int id, Status status);
 
-    public void printAllTasks();
+    void deleteAllTasks();
 
-    public void printHistory();
+    void printAllTasks();
 
-    public HashMap<Integer, Task> getAllTasks();
+    void printHistory();
 
-    public List<Task> getHistory();
+    HashMap<Integer, Task> getAllTasks();
 
-    public TreeSet<Task> getPrioritizedTasks();
+    List<Task> getHistory();
+
+    TreeSet<Task> getPrioritizedTasks();
 
 }
